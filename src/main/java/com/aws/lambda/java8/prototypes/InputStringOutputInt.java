@@ -38,11 +38,6 @@ public class InputStringOutputInt implements RequestHandler<Object, Integer> {
 		return sol1;
 	}
 
-	@FunctionalInterface
-	interface FunctionSolution<N, A, O> {
-		public O apply(N n, A a);
-	}
-
 	Function<String, Integer> functionGetSolution = S -> {
 		String[] arrayS = S.chars().mapToObj(s -> (char) s + "").toArray(String[]::new);
 
