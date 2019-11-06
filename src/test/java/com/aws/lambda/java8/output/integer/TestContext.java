@@ -1,4 +1,4 @@
-package com.aws.lambda.java8.prototypes;
+package com.aws.lambda.java8.output.integer;
 
 import com.amazonaws.services.lambda.runtime.ClientContext;
 import com.amazonaws.services.lambda.runtime.CognitoIdentity;

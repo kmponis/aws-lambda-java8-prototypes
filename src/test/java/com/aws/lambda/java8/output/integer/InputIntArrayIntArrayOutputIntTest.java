@@ -1,4 +1,4 @@
-package com.aws.lambda.java8.prototypes;
+package com.aws.lambda.java8.output.integer;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.aws.lambda.java8.output.integer.InputIntArrayIntArrayOutputInt;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -16,14 +17,14 @@ import com.google.gson.JsonParser;
 /**
  * A simple test harness for locally invoking your Lambda function handler.
  */
-public class InputStringOutputIntTest {
+public class InputIntArrayIntArrayOutputIntTest {
 
 	private static Object input;
 
 	@BeforeClass
 	public static void createInput() throws IOException {
-		String jsonString = "{\"tests\":[{\"S\":\"trest\",\"output\":5}" + ", {\"S\":\"testwe\",\"output\":6}"
-				+ ", {\"S\":\"terty45\",\"output\":7}]}";
+		String jsonString = "{\"tests\":[{\"A\":[1,2,3,4,5],\"B\":[1,2,3],\"output\":15}"
+				+ ", {\"A\":[1],\"B\":[3,4,5],\"output\":3}" + ", {\"A\":[1,2,3],\"B\":[4,5,6],\"output\":9}]}";
 		System.out.println(MethodHandles.lookup().lookupClass().getSimpleName());
 		System.out.println(jsonString);
 
@@ -38,7 +39,7 @@ public class InputStringOutputIntTest {
 
 	@Test
 	public void testSample() {
-		InputStringOutputInt handler = new InputStringOutputInt();
+		InputIntArrayIntArrayOutputInt handler = new InputIntArrayIntArrayOutputInt();
 		Context ctx = createContext();
 
 		JsonParser parser = new JsonParser();
@@ -54,4 +55,5 @@ public class InputStringOutputIntTest {
 			Assert.assertEquals(expected, output);
 		}
 	}
+
 }

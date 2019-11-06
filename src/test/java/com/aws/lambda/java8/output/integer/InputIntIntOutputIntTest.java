@@ -1,4 +1,4 @@
-package com.aws.lambda.java8.sample;
+package com.aws.lambda.java8.output.integer;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
@@ -8,7 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.google.gson.Gson;
+import com.aws.lambda.java8.output.integer.InputIntIntOutputInt;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -17,15 +17,14 @@ import com.google.gson.JsonParser;
 /**
  * A simple test harness for locally invoking your Lambda function handler.
  */
-public class SampleTest {
+public class InputIntIntOutputIntTest {
 
 	private static Object input;
 
 	@BeforeClass
 	public static void createInput() throws IOException {
-		String jsonString = "{\"tests\":[{\"S\":\"aassdf\",\"N\":50, \"A\":[1,2],\"output\":[100]}"
-				+ ", {\"S\":\"assdddf\",\"N\":51, \"A\":[1,2],\"output\":[102]}"
-				+ ", {\"S\":\"asddfffff\",\"N\":52, \"A\":[1,2],\"output\":[104]}]}";
+		String jsonString = "{\"tests\":[{\"A\":123456789,\"B\":10,\"output\":18}"
+				+ ", {\"A\":12345,\"B\":12345,\"output\":25}" + ", {\"A\":1234567,\"B\":12345,\"output\":35}]}";
 		System.out.println(MethodHandles.lookup().lookupClass().getSimpleName());
 		System.out.println(jsonString);
 
@@ -40,7 +39,7 @@ public class SampleTest {
 
 	@Test
 	public void testSample() {
-		Sample handler = new Sample();
+		InputIntIntOutputInt handler = new InputIntIntOutputInt();
 		Context ctx = createContext();
 
 		JsonParser parser = new JsonParser();
@@ -51,9 +50,10 @@ public class SampleTest {
 		for (int i = 0; i < testsArray.size(); i++) {
 			JsonObject object = testsArray.get(i).getAsJsonObject();
 
-			Object[] expected = new Gson().fromJson(object.get("output").getAsJsonArray(), Object[].class);
-			Object[] output = handler.handleRequest(object, ctx);
-			Assert.assertArrayEquals(expected, output);
+			Integer expected = object.get("output").getAsInt();
+			Integer output = handler.handleRequest(object, ctx);
+			Assert.assertEquals(expected, output);
 		}
 	}
+
 }

@@ -1,4 +1,4 @@
-package com.aws.lambda.java8.prototypes;
+package com.aws.lambda.java8.output.integer;
 
 import java.util.function.Function;
 
@@ -10,7 +10,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class InputStringOutputInt implements RequestHandler<Object, Integer> {
+public class InputIntOutputInt implements RequestHandler<Object, Integer> {
 
 	@Override
 	public Integer handleRequest(Object input, Context context) {
@@ -27,10 +27,10 @@ public class InputStringOutputInt implements RequestHandler<Object, Integer> {
 			JsonElement jsonElement = gson.toJsonTree(input);
 			jsonObject = jsonElement.getAsJsonObject();
 		}
-		String S = jsonObject.get("S").getAsString();
+		int A = jsonObject.get("A").getAsInt();
 
 		long start1 = System.nanoTime();
-		int sol1 = functionGetSolution.apply(S);
+		int sol1 = functionGetSolution.apply(A);
 		long end1 = System.nanoTime();
 
 		context.getLogger().log("Solution 1: " + (end1 - start1) + " nano");
@@ -38,10 +38,10 @@ public class InputStringOutputInt implements RequestHandler<Object, Integer> {
 		return sol1;
 	}
 
-	Function<String, Integer> functionGetSolution = S -> {
-		String[] arrayS = S.chars().mapToObj(s -> (char) s + "").toArray(String[]::new);
+	Function<Integer, Integer> functionGetSolution = A -> {
+		Integer[] arrayA = (A + "").chars().mapToObj(s -> s - '0').toArray(Integer[]::new);
 
-		return arrayS.length;
+		return arrayA.length;
 	};
 
 }

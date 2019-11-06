@@ -46,15 +46,34 @@ public class Sample implements RequestHandler<Object, Object[]> {
 	}
 
 	private Object[] getSolution(String S, int N, int[] A) {
+		// String Array
 		String[] arrayS = S.chars().mapToObj(s -> (char) s + "").toArray(String[]::new);
-
-		// Reverce String
-		String[] reverceArrayS = new StringBuffer(S).reverse().chars().mapToObj(s -> (char) s + "").toArray(String[]::new);
-		System.out.println(Arrays.toString(reverceArrayS));
+		System.out.println("String Array: " + Arrays.toString(arrayS));
 
 		// Create Map<Character, Count>
-		Map<String, Long> groupCharacters = Stream.of(arrayS).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
-		groupCharacters.entrySet().stream().forEach(System.out::println);
+		Map<String, Long> groupCharactersMap = Stream.of(arrayS)
+				.collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+		Object[] groupCharactersArray = groupCharactersMap.entrySet().stream().toArray();
+		System.out.println("Group Character: " + Arrays.deepToString(groupCharactersArray));
+
+		// Reverse int
+		Integer[] reverseArrayN = new StringBuffer(N + "").reverse().chars().mapToObj(n -> n - '0').toArray(Integer[]::new);
+		System.out.println("Reverse int: " + Arrays.toString(reverseArrayN));
+
+		// Iterate with limit
+		Integer[] iterateIntegers = Stream.iterate(0, i -> i + 1).limit(10).toArray(Integer[]::new);
+		System.out.println("Iterate with limit: " + Arrays.toString(iterateIntegers));
+
+		// Generate Int
+		int[] fibs = { 0, 1 };
+		Integer[] fibonacci = Stream.generate(() -> {
+			int result = fibs[1];
+			int fib3 = fibs[0] + fibs[1];
+			fibs[0] = fibs[1];
+			fibs[1] = fib3;
+			return result;
+		}).skip(3).limit(10).toArray(Integer[]::new);
+		System.out.println("Generate fibonacci: " + Arrays.toString(fibonacci));
 
 		return new Object[] { N * A.length };
 	}

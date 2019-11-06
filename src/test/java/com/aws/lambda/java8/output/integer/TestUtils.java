@@ -1,4 +1,4 @@
-package com.aws.lambda.java8.prototypes;
+package com.aws.lambda.java8.output.integer;
 
 import java.io.IOException;
 import java.io.InputStream;
