@@ -1,6 +1,7 @@
 package com.aws.lambda.java8.sample;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,9 +36,11 @@ public class Sample implements RequestHandler<Object, Object[]> {
 		int N = jsonObject.get("N").getAsInt();
 		JsonArray inputA = jsonObject.get("A").getAsJsonArray();
 		int[] A = new Gson().fromJson(inputA, int[].class);
+		JsonArray inputSA = jsonObject.get("SA").getAsJsonArray();
+		String[] SA = new Gson().fromJson(inputSA, String[].class);
 
 		long start1 = System.nanoTime();
-		Object[] sol1 = getSolution(S, N, A);
+		Object[] sol1 = getSolution(S, N, A, SA);
 		long end1 = System.nanoTime();
 
 		context.getLogger().log("Solution 1: " + (end1 - start1) + " nano");
@@ -45,16 +48,30 @@ public class Sample implements RequestHandler<Object, Object[]> {
 		return sol1;
 	}
 
-	private Object[] getSolution(String S, int N, int[] A) {
+	private Object[] getSolution(String S, int N, int[] A, String SA[]) {
 		// String Array
 		String[] arrayS = S.chars().mapToObj(s -> (char) s + "").toArray(String[]::new);
 		System.out.println("String Array: " + Arrays.toString(arrayS));
 
-		// Create Map<Character, Count>
-		Map<String, Long> groupCharactersMap = Stream.of(arrayS)
-				.collect(Collectors.groupingBy(s -> s, Collectors.counting()));
-		Object[] groupCharactersArray = groupCharactersMap.entrySet().stream().toArray();
-		System.out.println("Group Character: " + Arrays.deepToString(groupCharactersArray));
+		// Create Map<s, count> and convert to Object[]
+		Map<String, Long> createCountMap = Stream.of(arrayS).collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+		Object[] createCountArray = createCountMap.entrySet().stream().toArray();
+		System.out.println("Group Character: " + Arrays.deepToString(createCountArray));
+
+		// Create Map<s, length> and replace
+		Map<String, Integer> groupStringMap = Stream.of(SA).distinct().collect(Collectors.toMap(s -> s, s -> s.length()));
+		groupStringMap.replaceAll((s, length) -> s.startsWith("A") ? length + 10000 : length);
+		System.out
+				.println("Create Map and replace: " + Arrays.asList(groupStringMap.containsValue(0) ? "" : groupStringMap));
+
+		// Create List<String> and filter
+		List<String> listSA = Arrays.stream(SA).filter(name -> name.startsWith("A")).collect(Collectors.toList());
+		listSA.forEach(s -> System.out.println("Create List and Filter: " + s));
+
+		// Create List<String> and replace
+		List<String> upperCaseListSA = Arrays.stream(SA).collect(Collectors.toList());
+		upperCaseListSA.replaceAll(s -> s.toUpperCase());
+		System.out.println("Create List and replace: " + upperCaseListSA);
 
 		// Reverse int
 		Integer[] reverseArrayN = new StringBuffer(N + "").reverse().chars().mapToObj(n -> n - '0').toArray(Integer[]::new);

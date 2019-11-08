@@ -23,9 +23,9 @@ public class SampleTest {
 
 	@BeforeClass
 	public static void createInput() throws IOException {
-		String jsonString = "{\"tests\":[{\"S\":\"aassdf\",\"N\":50, \"A\":[1,2],\"output\":[100]}"
-				+ ", {\"S\":\"assdddf\",\"N\":51, \"A\":[1,2],\"output\":[102]}"
-				+ ", {\"S\":\"asddfffff\",\"N\":52, \"A\":[1,2],\"output\":[104]}]}";
+		String jsonString = "{\"tests\":[{\"S\":\"aassdf\",\"N\":50,\"A\":[1,2],\"SA\":[\"Angela\",\"Aaron\",\"Bob\",\"Claire\",\"David\",\"Bob\"],\"output\":[100]}"
+				+ ", {\"S\":\"assdddf\",\"N\":51, \"A\":[1,2],\"SA\":[\"Angela\"],\"output\":[102]}"
+				+ ", {\"S\":\"asddfffff\",\"N\":52, \"A\":[1,2],\"SA\":[\"\"],\"output\":[104]}]}";
 		System.out.println(MethodHandles.lookup().lookupClass().getSimpleName());
 		System.out.println(jsonString);
 
