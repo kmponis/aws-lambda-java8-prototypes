@@ -42,8 +42,9 @@ public class Sample implements RequestHandler<Object, Object[]> {
 		long start1 = System.nanoTime();
 		Object[] sol1 = getSolution(S, N, A, SA);
 		long end1 = System.nanoTime();
+		Double time1 = Math.round(((end1 - (double) start1) / 1000000000) * 100000d) / 100000d;
 
-		context.getLogger().log("Solution 1: " + (end1 - start1) + " nano");
+		context.getLogger().log("Solution 1: " + time1 + " sec");
 		context.getLogger().log("--------------------------");
 		return sol1;
 	}
