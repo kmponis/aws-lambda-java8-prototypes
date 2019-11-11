@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.aws.lambda.java8.sample.TestContext;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -21,7 +20,7 @@ import com.google.gson.JsonParser;
 /**
  * A simple test harness for locally invoking your Lambda function handler.
  */
-public class SampleOutputArrayTest {
+public class SampleOutputIntTest {
 
 	private static Object input;
 
@@ -59,7 +58,7 @@ public class SampleOutputArrayTest {
 
 	@Test
 	public void testSample() {
-		SampleOutputArray handler = new SampleOutputArray();
+		SampleOutputInt handler = new SampleOutputInt();
 		Context ctx = createContext();
 
 		JsonParser parser = new JsonParser();
@@ -70,9 +69,9 @@ public class SampleOutputArrayTest {
 		for (int i = 0; i < testsArray.size(); i++) {
 			JsonObject object = testsArray.get(i).getAsJsonObject();
 
-			Object[] expected = new Gson().fromJson(object.get("output").getAsJsonArray(), Object[].class);
-			Object[] output = handler.handleRequest(object, ctx);
-			Assert.assertArrayEquals(expected, output);
+			Integer expected = object.get("output").getAsInt();
+			Integer output = handler.handleRequest(object, ctx);
+			Assert.assertEquals(expected, output);
 		}
 	}
 

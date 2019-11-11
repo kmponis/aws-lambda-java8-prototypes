@@ -12,10 +12,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class SampleOutputArray implements RequestHandler<Object, Object[]> {
+public class SampleOutputInt implements RequestHandler<Object, Integer> {
 
 	@Override
-	public Object[] handleRequest(Object input, Context context) {
+	public Integer handleRequest(Object input, Context context) {
 		context.getLogger().log("--------------------------");
 		context.getLogger().log("Input: " + input);
 		JsonObject jsonObject;
@@ -35,7 +35,7 @@ public class SampleOutputArray implements RequestHandler<Object, Object[]> {
 		String[] SA = new Gson().fromJson(jsonObject.get("SA").getAsJsonArray(), String[].class);
 
 		long start1 = System.nanoTime();
-		Object[] sol1 = getSolution(N, NA, S, SA);
+		Integer sol1 = getSolution(N, NA, S, SA);
 		long end1 = System.nanoTime();
 		Double time1 = Math.round(((end1 - (double) start1) / 1000000000) * 100000d) / 100000d;
 
@@ -44,7 +44,7 @@ public class SampleOutputArray implements RequestHandler<Object, Object[]> {
 		return sol1;
 	}
 
-	private Object[] getSolution(Integer N, int[] NA, String S, String[] SA) {
+	private Integer getSolution(Integer N, int[] NA, String S, String[] SA) {
 		// Integer
 		Integer[] arrayN = (N + "").chars().mapToObj(n -> n - '0').toArray(Integer[]::new);
 		System.out.println("Integer -> Integer[]: " + Arrays.toString(arrayN));
@@ -61,7 +61,7 @@ public class SampleOutputArray implements RequestHandler<Object, Object[]> {
 		Map<String, Integer> mapSA = Arrays.stream(SA).distinct().collect(Collectors.toMap(s -> s, String::length));
 		System.out.println("String[] -> Distinct Map<String, Long>: " + Arrays.asList(mapSA));
 
-		return new Object[] { N * NA.length };
+		return N * NA.length;
 	}
 
 }
