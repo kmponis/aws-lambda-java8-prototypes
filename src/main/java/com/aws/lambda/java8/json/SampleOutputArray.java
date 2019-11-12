@@ -39,7 +39,7 @@ public class SampleOutputArray implements RequestHandler<Object, Object[]> {
 		long end1 = System.nanoTime();
 		Double time1 = Math.round(((end1 - (double) start1) / 1000000000) * 100000d) / 100000d;
 
-		context.getLogger().log("Solution 1: " + time1 + " sec");
+		context.getLogger().log("Solution 1: " + Arrays.toString(sol1) + " time " + time1 + " sec");
 		context.getLogger().log("--------------------------");
 		return sol1;
 	}

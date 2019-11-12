@@ -2,6 +2,7 @@ package com.aws.lambda.java8.json;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.util.Random;
 import java.util.function.Supplier;
 
 import org.json.JSONArray;
@@ -40,7 +41,15 @@ public class SampleOutputIntTest {
 		jsonObject.put("NA", new JSONArray(new Integer[] { 1, 2 }));
 		jsonObject.put("S", "aassdf");
 		jsonObject.put("SA", new JSONArray(new String[] { "Angela", "Aaron", "Bob", "Claire", "David", "Bob" }));
-		jsonObject.put("output", new JSONArray(new Integer[] { 100 }));
+		jsonObject.put("output", 100);
+		jsonMainArray.put(jsonObject);
+
+		jsonObject = new JSONObject();
+		jsonObject.put("N", 50);
+		jsonObject.put("NA", new JSONArray(new Random().ints(1000, -1000, 1000).toArray()));
+		jsonObject.put("S", "aassdf");
+		jsonObject.put("SA", new JSONArray(new String[] { "Angela", "Aaron", "Bob", "Claire", "David", "Bob" }));
+		jsonObject.put("output", 50000);
 		jsonMainArray.put(jsonObject);
 
 		JSONObject output = new JSONObject();
