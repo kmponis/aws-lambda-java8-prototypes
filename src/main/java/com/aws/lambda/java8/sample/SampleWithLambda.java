@@ -14,6 +14,7 @@ import com.google.gson.JsonParser;
 
 public class SampleWithLambda implements RequestHandler<Object, String> {
 
+  @SuppressWarnings("unused")
   @Override
   public String handleRequest(Object input, Context context) {
     context.getLogger().log("--------------------------");
