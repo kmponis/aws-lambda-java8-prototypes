@@ -1,4 +1,4 @@
-package com.aws.lambda.java8.sample;
+package com.aws.lambda.java8.json;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.aws.lambda.java8.sample.TestContext;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -20,7 +21,7 @@ import com.google.gson.JsonParser;
 /**
  * A simple test harness for locally invoking your Lambda function handler.
  */
-public class SampleWithLambdaTest {
+public class SampleOutputStringTest {
 
   private static Object input;
 
@@ -40,15 +41,15 @@ public class SampleWithLambdaTest {
     jsonObject.put("NA", new JSONArray(new Integer[] { 1, 2 }));
     jsonObject.put("S", "aassdf");
     jsonObject.put("SA", new JSONArray(new String[] { "Angela", "Aaron", "Bob", "Claire", "David", "Bob" }));
-    jsonObject.put("output", "");
+    jsonObject.put("output", "really");
     jsonMainArray.put(jsonObject);
 
     jsonObject = new JSONObject();
     jsonObject.put("N", 50);
-    jsonObject.put("NA", new JSONArray(new Random(1000).ints(1000, -20, 20).toArray()));
+    jsonObject.put("NA", new JSONArray(new Random().ints(1000, -1000, 1000).toArray()));
     jsonObject.put("S", "aassdf");
     jsonObject.put("SA", new JSONArray(new String[] { "Angela", "Aaron", "Bob", "Claire", "David", "Bob" }));
-    jsonObject.put("output", "");
+    jsonObject.put("output", "really");
     jsonMainArray.put(jsonObject);
 
     JSONObject output = new JSONObject();
@@ -66,7 +67,7 @@ public class SampleWithLambdaTest {
 
   @Test
   public void testSample() {
-    SampleWithLambda handler = new SampleWithLambda();
+    SampleOutputString handler = new SampleOutputString();
     Context ctx = createContext();
 
     JsonParser parser = new JsonParser();
